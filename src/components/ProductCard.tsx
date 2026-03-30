@@ -1,9 +1,10 @@
 import type { Key } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
+import { ShoppingBag } from "lucide-react";
 import { Product } from "../data/products";
 import { ProductImage } from "./ProductImage";
-import { useInquiry } from "../context/InquiryContext";
+import { useCart } from "../context/InquiryContext";
 
 interface ProductCardProps {
   product: Product;
@@ -12,72 +13,85 @@ interface ProductCardProps {
   key?: Key;
 }
 
+const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+
 export function ProductCard({ product, index }: ProductCardProps) {
-  const { addToInquiry, isInInquiry } = useInquiry();
-  const alreadyInInquiry = isInInquiry(product.id);
+  const { addToCart, getQuantity, openCart } = useCart();
+  const quantity = getQuantity(product.id);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    addToCart(product);
+    openCart();
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-32px" }}
-      transition={{ delay: index * 0.09, duration: 0.55 }}
-      className="group"
+      viewport={{ once: true, margin: "-24px" }}
+      transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.45 }}
+      className="group flex flex-col"
     >
-      <Link to={`/product/${product.id}`} className="block cursor-pointer">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[26px] border border-gray-200/75 bg-[#f4f6f5] shadow-sm transition-[border-color,box-shadow,transform] duration-500 ease-out group-hover:-translate-y-0.5 group-hover:border-brand/20 group-hover:shadow-premium">
+      {/* ── Image ── */}
+      <Link to={`/product/${product.id}`} className="block">
+        <div className={`relative overflow-hidden rounded-2xl bg-[#f2f4f3] ${product.id.startsWith("f-") ? "aspect-square" : "aspect-[3/4]"}`}>
           <ProductImage
             fallback={product.fallbackImage}
             alt={product.name}
-            className="h-full w-full"
+            objectFit={product.id.startsWith("f-") ? "contain" : "cover"}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-          <div className="absolute left-4 top-4 max-w-[calc(100%-2rem)]">
-            <p className="inline-block truncate rounded-full bg-white/92 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-primary/90 shadow-sm backdrop-blur-sm">
-              {product.category}
-            </p>
-          </div>
+          {/* Dark gradient on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-          <div className="absolute right-4 top-4">
-            <div className="rounded-full border border-white/60 bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-gray-700 shadow-sm backdrop-blur-md">
-              {product.status}
+          {/* In-cart badge (always visible if qty > 0) */}
+          {quantity > 0 && (
+            <div className="absolute right-3 top-3">
+              <span className="flex items-center gap-1 rounded-full bg-brand px-2.5 py-0.5 text-[10px] font-bold text-white shadow">
+                {quantity} in cart
+              </span>
             </div>
+          )}
+
+          {/* Quick-add slides up on hover */}
+          <div className="absolute inset-x-3 bottom-3 translate-y-3 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+            <button
+              type="button"
+              onClick={handleAdd}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-white py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-primary shadow-lg transition hover:bg-gray-50 active:scale-[0.98]"
+            >
+              <ShoppingBag className="h-3.5 w-3.5" strokeWidth={2} />
+              {quantity > 0 ? "Add again" : "Add to cart"}
+            </button>
           </div>
         </div>
       </Link>
 
-      <div className="mt-7 space-y-3">
-        <Link to={`/product/${product.id}`} className="block cursor-pointer">
-          <h3 className="text-lg font-semibold leading-snug text-primary transition-colors duration-300 group-hover:text-brand sm:text-xl">
+      {/* ── Info ── */}
+      <div className="mt-3.5 flex flex-col gap-1.5 px-0.5">
+        <Link to={`/product/${product.id}`}>
+          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-primary transition-colors hover:text-brand sm:text-[0.9375rem]">
             {product.name}
           </h3>
         </Link>
-        <p className="line-clamp-2 text-sm leading-relaxed text-gray-500">{product.description}</p>
-        <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">MOQ</span>
-            <p className="mt-1 text-sm font-semibold text-primary">{product.moq}</p>
-          </div>
-          <motion.button
+
+        <div className="flex items-center justify-between gap-2 pt-0.5">
+          <span className="text-base font-bold text-primary">
+            {currency.format(product.price)}
+          </span>
+
+          <button
             type="button"
-            whileHover={
-              alreadyInInquiry ? undefined : { scale: 1.02 }
-            }
-            whileTap={alreadyInInquiry ? undefined : { scale: 0.97 }}
-            onClick={(e) => {
-              e.preventDefault();
-              addToInquiry(product);
-            }}
-            disabled={alreadyInInquiry}
-            className={`w-full rounded-xl border px-5 py-2.5 text-center text-xs font-bold uppercase tracking-[0.14em] transition-all sm:w-auto ${
-              alreadyInInquiry
-                ? "cursor-not-allowed border-brand/20 bg-brand/10 text-brand"
-                : "border-primary/15 bg-primary text-white shadow-sm hover:border-brand hover:bg-brand"
+            onClick={handleAdd}
+            className={`shrink-0 rounded-lg px-3 py-1.5 text-[11px] font-semibold transition-all ${
+              quantity > 0
+                ? "bg-brand/10 text-brand hover:bg-brand/15"
+                : "border border-gray-200 bg-white text-gray-600 hover:border-primary/20 hover:text-primary"
             }`}
           >
-            {alreadyInInquiry ? "In inquiry list" : "Add to inquiry"}
-          </motion.button>
+            {quantity > 0 ? `+ Add (${quantity})` : "Add"}
+          </button>
         </div>
       </div>
     </motion.div>

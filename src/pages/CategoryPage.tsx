@@ -37,7 +37,7 @@ export function CategoryPage() {
               transition={{ delay: 0.1 }}
               className="mt-6 text-lg text-gray-600 leading-relaxed"
             >
-              Explore our curated selection of {categoryTitle} products. High-quality sourcing for your business growth.
+              Explore our curated selection of {categoryTitle} products and add your favorites directly to cart.
             </motion.p>
           </div>
         </div>

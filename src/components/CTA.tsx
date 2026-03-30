@@ -18,24 +18,24 @@ export function CTA() {
 
           <div className="relative z-10 mx-auto max-w-2xl">
             <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-white/55">
-              Wholesale desk · Al-Ghani Traders
+              Customer care · Al-Ghani Traders
             </p>
             <h2 className="mt-5 font-serif text-3xl font-semibold tracking-tight text-white sm:text-4xl sm:leading-[1.15] lg:text-[2.65rem]">
-              Ready when your brief is.
+              Ready to complete your order?
             </h2>
             <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-gray-300 sm:text-lg">
-              Send categories, target landed cost, and volumes. We translate your brief into SKUs, timelines, and a quote
-              structure your finance team can model—without the usual back-and-forth noise.
+              Add your favorites to cart, review your order, and checkout with confidence. We keep the flow simple and
+              transparent.
             </p>
           </div>
 
           <div className="relative z-10 mt-11 flex flex-col items-stretch justify-center gap-4 sm:mt-12 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-5">
             <motion.div whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Link
-                to="/inquiry"
+                to="/checkout"
                 className="flex min-h-[48px] w-full min-w-[200px] items-center justify-center rounded-2xl bg-white px-9 py-3.5 text-sm font-semibold text-brand shadow-lg shadow-black/10 transition-colors hover:bg-gray-50 sm:min-h-0 sm:w-auto"
               >
-                Start your inquiry
+                Go to checkout
               </Link>
             </motion.div>
             <motion.div whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -43,15 +43,14 @@ export function CTA() {
                 to="/shop"
                 className="flex min-h-[48px] w-full min-w-[200px] items-center justify-center rounded-2xl border border-white/25 bg-white/5 px-9 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/10 sm:min-h-0 sm:w-auto"
               >
-                Browse the catalog
+                Continue shopping
               </Link>
             </motion.div>
           </div>
 
           <p className="relative z-10 mx-auto mt-8 max-w-md text-xs leading-relaxed text-gray-400 sm:text-sm">
-            No catalog noise, no obligations.{" "}
-            <span className="text-gray-300">We typically reply within one to two business days</span> with next steps and
-            MOQ-aware pricing direction.
+            Questions before checkout?{" "}
+            <span className="text-gray-300">Our team is here to help with product and order support.</span>
           </p>
 
           <svg

@@ -3,80 +3,73 @@ import logoCropped from "../assets/logo-cropped.png";
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-white pt-24 pb-12">
+    <footer className="bg-primary text-white pt-20 pb-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
+        <div className="grid grid-cols-1 gap-14 md:grid-cols-12 mb-16">
+          {/* Brand */}
           <div className="md:col-span-4">
-            <Link to="/" className="mb-8 flex items-center self-start group">
-              <img 
+            <Link to="/" className="mb-6 inline-block">
+              <img
                 src={logoCropped}
-                alt="Al-Ghani Traders Logo" 
-                className="h-11 w-auto object-contain opacity-95 transition-opacity group-hover:opacity-100 sm:h-12"
+                alt="Al-Ghani Traders"
+                className="h-10 w-auto object-contain opacity-90 transition-opacity hover:opacity-100 sm:h-11"
                 referrerPolicy="no-referrer"
               />
             </Link>
-            <p className="text-gray-400 text-base leading-relaxed max-w-sm">
-              The premier global sourcing partner for businesses seeking reliability, quality, and scalable wholesale solutions.
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
+              Your trusted destination for quality essentials across kitchen, home, beauty, and lifestyle.
             </p>
-            <div className="mt-8 flex gap-4">
-              {/* Placeholder for social icons if needed, but keeping it minimal */}
-              <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition cursor-pointer">
-                <span className="text-xs font-bold">IN</span>
-              </div>
-              <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition cursor-pointer">
-                <span className="text-xs font-bold">TW</span>
-              </div>
-              <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition cursor-pointer">
-                <span className="text-xs font-bold">FB</span>
-              </div>
-            </div>
           </div>
-          
+
+          {/* Shop */}
           <div className="md:col-span-2">
-            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-accent mb-8">Solutions</h4>
-            <ul className="space-y-4 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Kitchen Tools</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Home Essentials</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Storage Systems</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Custom Sourcing</a></li>
+            <h4 className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Shop</h4>
+            <ul className="space-y-3.5 text-sm text-gray-400">
+              <li><Link to="/shop" className="hover:text-white transition-colors">All products</Link></li>
+              <li><Link to="/category/Kitchen" className="hover:text-white transition-colors">Kitchen</Link></li>
+              <li><Link to="/category/Home" className="hover:text-white transition-colors">Home</Link></li>
+              <li><Link to="/category/Beauty" className="hover:text-white transition-colors">Beauty</Link></li>
+              <li><Link to="/category/Fitness" className="hover:text-white transition-colors">Fitness</Link></li>
             </ul>
           </div>
 
+          {/* Company */}
           <div className="md:col-span-2">
-            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-accent mb-8">Company</h4>
-            <ul className="space-y-4 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Our Story</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Quality Control</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Global Network</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+            <h4 className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Company</h4>
+            <ul className="space-y-3.5 text-sm text-gray-400">
+              <li><a href="/#about" className="hover:text-white transition-colors">About us</a></li>
+              <li><a href="/#contact" className="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Returns</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
             </ul>
           </div>
 
+          {/* Contact */}
           <div className="md:col-span-4">
-            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-accent mb-8">Global Inquiries</h4>
+            <h4 className="mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Get in touch</h4>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li className="flex flex-col gap-1">
-                <span className="text-white font-medium">Email</span>
-                <span>sourcing@alghanitraders.com</span>
+              <li className="flex flex-col gap-0.5">
+                <span className="text-white font-medium text-xs uppercase tracking-wider">Email</span>
+                <a href="mailto:support@alghanitraders.com" className="hover:text-white transition-colors">
+                  support@alghanitraders.com
+                </a>
               </li>
-              <li className="flex flex-col gap-1">
-                <span className="text-white font-medium">Phone</span>
-                <span>+1 (555) 123-4567</span>
-              </li>
-              <li className="flex flex-col gap-1">
-                <span className="text-white font-medium">Headquarters</span>
-                <span>123 Global Trade Way, Suite 500</span>
+              <li className="flex flex-col gap-0.5">
+                <span className="text-white font-medium text-xs uppercase tracking-wider">Phone</span>
+                <a href="tel:+15551234567" className="hover:text-white transition-colors">
+                  +1 (555) 123-4567
+                </a>
               </li>
             </ul>
           </div>
         </div>
-        
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">
+
+        {/* Bottom bar */}
+        <div className="border-t border-white/8 pt-8 flex flex-col md:flex-row justify-between items-center gap-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-500">
           <p>© 2026 Al-Ghani Traders. All rights reserved.</p>
-          <div className="flex gap-12">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-white transition-colors">Cookies</a>
+          <div className="flex gap-8">
+            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms</a>
           </div>
         </div>
       </div>

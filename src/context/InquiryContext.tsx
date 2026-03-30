@@ -1,63 +1,143 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Product } from "../data/products";
 
-interface InquiryContextType {
-  inquiryList: Product[];
-  addToInquiry: (product: Product) => void;
-  removeFromInquiry: (productId: string) => void;
-  clearInquiry: () => void;
-  isInInquiry: (productId: string) => boolean;
+export interface CartItem {
+  product: Product;
+  quantity: number;
 }
 
-const InquiryContext = createContext<InquiryContextType | undefined>(undefined);
+interface CartContextType {
+  cartItems: CartItem[];
+  itemCount: number;
+  subtotal: number;
+  isCartOpen: boolean;
+  addToCart: (product: Product) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
+  clearCart: () => void;
+  isInCart: (productId: string) => boolean;
+  getQuantity: (productId: string) => number;
+  openCart: () => void;
+  closeCart: () => void;
+  toggleCart: () => void;
+}
 
-export function InquiryProvider({ children }: { children: React.ReactNode }) {
-  const [inquiryList, setInquiryList] = useState<Product[]>(() => {
-    const saved = localStorage.getItem("alghani_inquiry_list");
-    return saved ? JSON.parse(saved) : [];
+const CartContext = createContext<CartContextType | undefined>(undefined);
+
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const saved = localStorage.getItem("alghani_cart");
+    if (!saved) return [];
+    try {
+      const parsed = JSON.parse(saved) as unknown[];
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .map((item) => {
+          if (
+            typeof item === "object" &&
+            item !== null &&
+            "product" in item &&
+            "quantity" in item
+          ) {
+            const candidate = item as CartItem;
+            return candidate.quantity > 0 ? candidate : null;
+          }
+
+          // Migration: legacy stored value was Product[] without quantity.
+          if (typeof item === "object" && item !== null && "id" in item) {
+            return { product: item as Product, quantity: 1 };
+          }
+
+          return null;
+        })
+        .filter((entry): entry is CartItem => entry !== null);
+    } catch {
+      return [];
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem("alghani_inquiry_list", JSON.stringify(inquiryList));
-  }, [inquiryList]);
+    localStorage.setItem("alghani_cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
-  const addToInquiry = (product: Product) => {
-    if (!inquiryList.find((p) => p.id === product.id)) {
-      setInquiryList((prev) => [...prev, product]);
+  const addToCart = (product: Product) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.product.id === product.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+      return [...prev, { product, quantity: 1 }];
+    });
+  };
+
+  const removeFromCart = (productId: string) => {
+    setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
+  };
+
+  const updateQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(productId);
+      return;
     }
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.product.id === productId ? { ...item, quantity } : item
+      )
+    );
   };
 
-  const removeFromInquiry = (productId: string) => {
-    setInquiryList((prev) => prev.filter((p) => p.id !== productId));
+  const clearCart = () => {
+    setCartItems([]);
   };
 
-  const clearInquiry = () => {
-    setInquiryList([]);
+  const isInCart = (productId: string) => {
+    return !!cartItems.find((item) => item.product.id === productId);
   };
 
-  const isInInquiry = (productId: string) => {
-    return !!inquiryList.find((p) => p.id === productId);
+  const getQuantity = (productId: string) => {
+    return cartItems.find((item) => item.product.id === productId)?.quantity ?? 0;
   };
+
+  const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  const openCart = () => setIsCartOpen(true);
+  const closeCart = () => setIsCartOpen(false);
+  const toggleCart = () => setIsCartOpen((open) => !open);
 
   return (
-    <InquiryContext.Provider
+    <CartContext.Provider
       value={{
-        inquiryList,
-        addToInquiry,
-        removeFromInquiry,
-        clearInquiry,
-        isInInquiry,
+        cartItems,
+        itemCount,
+        subtotal,
+        isCartOpen,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        isInCart,
+        getQuantity,
+        openCart,
+        closeCart,
+        toggleCart,
       }}
     >
       {children}
-    </InquiryContext.Provider>
+    </CartContext.Provider>
   );
 }
 
-export function useInquiry() {
-  const context = useContext(InquiryContext);
+export function useCart() {
+  const context = useContext(CartContext);
   if (context === undefined) {
-    throw new Error("useInquiry must be used within an InquiryProvider");
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 }
+
+// Backward-compatible aliases while migrating file names.
+export const InquiryProvider = CartProvider;
+export const useInquiry = useCart;

@@ -1,6 +1,7 @@
 export interface Product {
   id: string;
   name: string;
+  price: number;
   category: string;
   description: string;
   material: string;
@@ -22,6 +23,19 @@ const getProductImage = (id: string, fallback: string): string =>
   images[`../assets/products/${id}.webp`] ||
   fallback;
 
+const getProductPrice = (id: string): number => {
+  const [prefix, indexPart] = id.split("-");
+  const index = Number(indexPart) || 1;
+  const baseByCategory: Record<string, number> = {
+    k: 24,
+    h: 32,
+    b: 18,
+    f: 28,
+  };
+  const base = baseByCategory[prefix] ?? 25;
+  return Number((base + (index - 1) * 1.75).toFixed(2));
+};
+
 export const categories = [
   "Kitchen",
   "Home",
@@ -29,7 +43,7 @@ export const categories = [
   "Fitness / Lifestyle"
 ];
 
-const baseProducts: Product[] = [
+const baseProducts: Omit<Product, "price">[] = [
   // Kitchen
   {
     id: "k-1",
@@ -701,5 +715,6 @@ const baseProducts: Product[] = [
 
 export const products: Product[] = baseProducts.map((product) => ({
   ...product,
+  price: getProductPrice(product.id),
   fallbackImage: getProductImage(product.id, product.fallbackImage),
 }));

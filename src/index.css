@@ -28,13 +28,29 @@
   body {
     @apply text-primary antialiased;
     font-feature-settings: "kern" 1, "liga" 1;
+    background-color: #ffffff;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply tracking-tight text-balance;
+    letter-spacing: -0.015em;
   }
 
   p {
     @apply leading-relaxed;
+  }
+
+  button, a {
+    @apply transition-all duration-200;
+  }
+
+  input, textarea {
+    @apply transition-[border-color,box-shadow] duration-200;
+  }
+}
+
+@layer components {
+  .input-field {
+    @apply w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-primary placeholder:text-gray-300 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/10;
   }
 }
