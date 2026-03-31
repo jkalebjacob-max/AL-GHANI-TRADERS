@@ -15,6 +15,8 @@ import { ShopPage } from "./pages/ShopPage";
 import { CategoryPage } from "./pages/CategoryPage";
 import { ProductPage } from "./pages/ProductPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
+import { ReturnsPage } from "./pages/ReturnsPage";
+import { FaqPage } from "./pages/FaqPage";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { CartDrawer } from "./components/CartDrawer";
 
@@ -70,6 +72,8 @@ export default function App() {
             <Route path="/category/:name" element={<CategoryPage />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/returns" element={<ReturnsPage />} />
+            <Route path="/faq" element={<FaqPage />} />
           </Routes>
 
           <Footer />

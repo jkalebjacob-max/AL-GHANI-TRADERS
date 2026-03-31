@@ -39,8 +39,8 @@ export function Footer() {
             <ul className="space-y-3.5 text-sm text-gray-400">
               <li><a href="/#about" className="hover:text-white transition-colors">About us</a></li>
               <li><a href="/#contact" className="hover:text-white transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Returns</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+              <li><Link to="/returns" className="hover:text-white transition-colors">Returns</Link></li>
+              <li><Link to="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
@@ -50,14 +50,8 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex flex-col gap-0.5">
                 <span className="text-white font-medium text-xs uppercase tracking-wider">Email</span>
-                <a href="mailto:support@alghanitraders.com" className="hover:text-white transition-colors">
-                  support@alghanitraders.com
-                </a>
-              </li>
-              <li className="flex flex-col gap-0.5">
-                <span className="text-white font-medium text-xs uppercase tracking-wider">Phone</span>
-                <a href="tel:+15551234567" className="hover:text-white transition-colors">
-                  +1 (555) 123-4567
+                <a href="mailto:info@alghanitrader.com" className="hover:text-white transition-colors">
+                  info@alghanitrader.com
                 </a>
               </li>
             </ul>

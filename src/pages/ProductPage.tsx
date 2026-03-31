@@ -70,11 +70,11 @@ export function ProductPage() {
           >
             {/* Main image */}
             <div className="overflow-hidden rounded-3xl bg-[#f4f6f5]">
-              <div className="aspect-square">
+              <div className="relative aspect-square">
                 <ProductImage
                   fallback={product.fallbackImage}
                   alt={product.name}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.03]"
+                  objectFit={product.id.startsWith("f-") ? "contain" : "cover"}
                 />
               </div>
             </div>

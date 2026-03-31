@@ -31,11 +31,11 @@ export function ProductCard({ product, index }: ProductCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-24px" }}
       transition={{ delay: Math.min(index * 0.06, 0.4), duration: 0.45 }}
-      className="group flex flex-col"
+      className="flex flex-col"
     >
       {/* ── Image ── */}
       <Link to={`/product/${product.id}`} className="block">
-        <div className={`relative overflow-hidden rounded-2xl bg-[#f2f4f3] ${product.id.startsWith("f-") ? "aspect-square" : "aspect-[3/4]"}`}>
+        <div className={`group relative overflow-hidden rounded-2xl bg-[#f2f4f3] ${product.id.startsWith("f-") ? "aspect-square" : "aspect-[3/4]"}`}>
           <ProductImage
             fallback={product.fallbackImage}
             alt={product.name}
