@@ -4,7 +4,10 @@ import { products } from "../data/products";
 import { ProductCard } from "./ProductCard";
 
 export function FeaturedProducts() {
-  const featured = products.slice(0, 8);
+  const featuredIds = ["k-7", "k-1", "h-8", "h-11", "b-1", "b-3", "f-3", "f-11"];
+  const featured = featuredIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter((product): product is (typeof products)[number] => Boolean(product));
 
   return (
     <section id="products" className="scroll-mt-24 bg-[#fafbfa] py-14 sm:py-16 lg:py-20">

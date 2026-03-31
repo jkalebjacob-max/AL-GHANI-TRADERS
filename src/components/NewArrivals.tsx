@@ -4,8 +4,10 @@ import { products } from "../data/products";
 import { ProductCard } from "./ProductCard";
 
 export function NewArrivals() {
-  // Show a different set — products 8-15
-  const arrivals = products.slice(8, 16);
+  const arrivalIds = ["k-4", "k-9", "h-3", "h-14", "b-2", "b-15", "f-10", "f-13"];
+  const arrivals = arrivalIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter((product): product is (typeof products)[number] => Boolean(product));
 
   return (
     <section className="bg-white py-14 sm:py-16 lg:py-20">

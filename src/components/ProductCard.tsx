@@ -1,4 +1,4 @@
-import type { Key } from "react";
+import type { Key, MouseEvent } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
@@ -19,7 +19,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
   const { addToCart, getQuantity, openCart } = useCart();
   const quantity = getQuantity(product.id);
 
-  const handleAdd = (e: React.MouseEvent) => {
+  const handleAdd = (e: MouseEvent) => {
     e.preventDefault();
     addToCart(product);
     openCart();
@@ -35,7 +35,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
     >
       {/* ── Image ── */}
       <Link to={`/product/${product.id}`} className="block">
-        <div className={`group relative overflow-hidden rounded-2xl bg-[#f2f4f3] ${product.id.startsWith("f-") ? "aspect-square" : "aspect-[3/4]"}`}>
+        <div className={`group relative aspect-[3/4] overflow-hidden rounded-2xl ${product.id.startsWith("f-") ? "bg-white" : "bg-[#f2f4f3]"}`}>
           <ProductImage
             fallback={product.fallbackImage}
             alt={product.name}
